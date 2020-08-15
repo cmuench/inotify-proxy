@@ -22,11 +22,11 @@ func IsPathValid(path string, selectedProfile string) bool {
 
 	switch selectedProfile {
 	case "magento2":
-		return profile.Magento2Profile.IsAllowedFileExtension(fileExtension)
+		return profile.Magento2.IsAllowedFileExtension(fileExtension)
 	case "magento2-theme":
-		return profile.Magento2ThemeProfile.IsAllowedFileExtension(fileExtension)
+		return profile.Magento2Theme.IsAllowedFileExtension(fileExtension)
 	case "vue-storefront":
-		return profile.VueStorefrontProfile.IsAllowedFileExtension(fileExtension)
+		return profile.VueStorefront.IsAllowedFileExtension(fileExtension)
 	default:
 		return true
 	}

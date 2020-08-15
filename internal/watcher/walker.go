@@ -64,7 +64,6 @@ func isFileChanged(path string, fileInfo os.FileInfo) bool {
 	return changed
 }
 
-
 func visit(path string, fileInfo os.FileInfo, err error) error {
 
 	if err != nil {

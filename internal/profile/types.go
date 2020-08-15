@@ -14,14 +14,14 @@ func (l *Profile) IsAllowedFileExtension(extension string) bool {
 	return false
 }
 
-var Magento2ThemeProfile = Profile{
-	fileExtensions: []string{ ".css", ".js", ".less", ".sass", ".ts" },
+var Magento2Theme = Profile{
+	fileExtensions: []string{".css", ".js", ".less", ".sass", ".ts"},
 }
 
-var Magento2Profile = Profile{
-	fileExtensions: []string{ ".css", ".html", ".less", ".sass", ".js", ".php", ".phtml", ".ts", ".xml" },
+var Magento2 = Profile{
+	fileExtensions: []string{".css", ".html", ".less", ".sass", ".js", ".php", ".phtml", ".ts", ".xml"},
 }
 
-var VueStorefrontProfile = Profile{
-	fileExtensions: []string{ ".css", ".js", ".sass", ".ts" },
+var VueStorefront = Profile{
+	fileExtensions: []string{".css", ".js", ".sass", ".ts"},
 }
