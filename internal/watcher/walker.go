@@ -3,17 +3,40 @@ package watcher
 import (
 	"github.com/cmuench/inotify-proxy/internal/profile/validator"
 	"github.com/gookit/color"
+	"github.com/karrick/godirwalk"
 	"os"
-	"path/filepath"
 	"time"
 )
+
+func visit(osPathname string, de *godirwalk.Dirent) error {
+	// we only process files
+	if de.IsDir() {
+		return nil
+	}
+
+	if !validator.IsPathValid(osPathname, selectedProfile) {
+		return godirwalk.SkipThis
+	}
+
+	fileChanged := isFileChanged(osPathname)
+	if fileChanged {
+		color.Style{color.FgGreen, color.OpBold}.Printf("Changed: %s | %s\n", osPathname, time.Now().Format("2006-01-02T15:04:05"))
+	}
+
+	return nil
+}
 
 func Watch(includedDirectories []string, watchFrequenceSeconds int, profile string) {
 	selectedProfile = profile
 
+	i := 0
+
 	for {
 		for _, directoryToWalk := range includedDirectories {
-			err := filepath.Walk(directoryToWalk, visit)
+			err := godirwalk.Walk(directoryToWalk, &godirwalk.Options{
+				Callback: visit,
+				Unsorted: true,
+			})
 
 			if err != nil {
 				panic(err)
@@ -21,12 +44,21 @@ func Watch(includedDirectories []string, watchFrequenceSeconds int, profile stri
 		}
 
 		time.Sleep(time.Duration(watchFrequenceSeconds) * time.Second)
+
+		if i%10 == 0 {
+			garbageCollection()
+			color.Info.Printf("Watching %d files ...\n", len(fileMap))
+		}
+
+		i++
 	}
 }
 
-func isFileChanged(path string, fileInfo os.FileInfo) bool {
+func isFileChanged(path string) bool {
+	fileInfo, err := os.Stat(path)
 
-	if !validator.IsPathValid(path, selectedProfile) {
+	if err != nil {
+		color.Errorf("Cannot stat file %s\n", path)
 		return false
 	}
 
@@ -64,21 +96,21 @@ func isFileChanged(path string, fileInfo os.FileInfo) bool {
 	return changed
 }
 
-func visit(path string, fileInfo os.FileInfo, err error) error {
+func garbageCollection() {
+	for path, _ := range fileMap {
+		if !fileExists(path) {
+			delete(fileMap, path)
+			color.Style{color.FgGray}.Printf("Deleted: %s\n", path)
+		}
+	}
+}
 
-	if err != nil {
-		return err
+func fileExists(path string) bool {
+	info, err := os.Stat(path)
+
+	if os.IsNotExist(err) {
+		return false
 	}
 
-	if fileInfo.IsDir() {
-		return nil
-	}
-
-	fileChanged := isFileChanged(path, fileInfo)
-
-	if fileChanged {
-		color.Style{color.FgGreen, color.OpBold}.Printf("Changed: %s | %s\n", path, time.Now().Format("2006-01-02T15:04:05"))
-	}
-
-	return nil
+	return !info.IsDir()
 }
