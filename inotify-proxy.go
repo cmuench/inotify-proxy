@@ -9,7 +9,7 @@ import (
 
 func main() {
 	sleepPtr := flag.Int("sleep", 2, "Cycle time in seconds. Defines time to sleep after each filesystem walk. Default 2s")
-	profilePtr := flag.String("profile", "", "Defines a special profile with extensions to look for. This speeds up the process. Available profiles are 'magento2-theme'")
+	profilePtr := flag.String("profile", "default", "Defines a special profile with extensions to look for. This speeds up the process. Available profiles are 'magento2-theme'")
 
 	flag.Parse()
 

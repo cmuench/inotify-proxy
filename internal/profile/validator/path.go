@@ -2,32 +2,22 @@ package validator
 
 import (
 	"github.com/cmuench/inotify-proxy/internal/profile"
-	"path/filepath"
-	"strings"
 )
 
-func IsPathValid(path string, selectedProfile string) bool {
+func IsPathValid(path string, profileName string) bool {
 
-	fileExtension := filepath.Ext(path)
+	var selectedProfile profile.Profile
 
-	// Exclude some directories by default
-
-	if strings.Contains(path, "node_modules/") {
-		return false
-	}
-
-	if strings.Contains(path, ".idea/") {
-		return false
-	}
-
-	switch selectedProfile {
+	switch profileName {
 	case "magento2":
-		return profile.Magento2.IsAllowedFileExtension(fileExtension)
+		selectedProfile = profile.Magento2
 	case "magento2-theme":
-		return profile.Magento2Theme.IsAllowedFileExtension(fileExtension)
+		selectedProfile = profile.Magento2Theme
 	case "vue-storefront":
-		return profile.VueStorefront.IsAllowedFileExtension(fileExtension)
+		selectedProfile = profile.VueStorefront
 	default:
-		return true
+		selectedProfile = profile.Default
 	}
+
+	return selectedProfile.IsAllowedDirectory(path) && selectedProfile.IsAllowedFileExtension(path)
 }
