@@ -1,7 +1,7 @@
 .PHONY: dev
 
 format:
-	go fmt -v ./...
+	go fmt ./...
 
 linux:
 	GOOS=linux GOARCH=amd64 go build -o inotify-proxy inotify-proxy.go
