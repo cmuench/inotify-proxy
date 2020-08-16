@@ -2,6 +2,7 @@ package watcher
 
 import (
 	"github.com/cmuench/inotify-proxy/internal/profile/validator"
+	"github.com/cmuench/inotify-proxy/internal/util"
 	"github.com/gookit/color"
 	"github.com/karrick/godirwalk"
 	"os"
@@ -81,7 +82,7 @@ func isFileChanged(path string) bool {
 
 			currentTime := time.Now()
 
-			err := os.Chtimes(path, currentModificationTime, currentTime)
+			err := os.Chtimes(path, currentTime, currentModificationTime)
 
 			if err != nil {
 				panic("Error touching file" + path)
@@ -98,19 +99,9 @@ func isFileChanged(path string) bool {
 
 func garbageCollection() {
 	for path, _ := range fileMap {
-		if !fileExists(path) {
+		if !util.FileExists(path) {
 			delete(fileMap, path)
 			color.Style{color.FgGray}.Printf("Deleted: %s\n", path)
 		}
 	}
-}
-
-func fileExists(path string) bool {
-	info, err := os.Stat(path)
-
-	if os.IsNotExist(err) {
-		return false
-	}
-
-	return !info.IsDir()
 }
