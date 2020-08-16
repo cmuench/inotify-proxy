@@ -1,6 +1,6 @@
 .PHONY: dev
 
-LDFLAGS="-ldflags=-X 'main.Version=dev-linux'"
+LDFLAGS="-ldflags=-s -w -X 'main.Version=dev-linux'"
 
 format:
 	go fmt ./...
