@@ -1,5 +1,6 @@
 builds:
-  - goos:
-      - linux
-  - ldflags:
-      - -s -w -X main.version={{.Version}}
+  -
+    - goos:
+        - linux
+    - ldflags:
+        - -s -w -X main.version={{.Version}}
