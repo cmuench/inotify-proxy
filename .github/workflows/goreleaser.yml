@@ -9,18 +9,20 @@ jobs:
   goreleaser:
     runs-on: ubuntu-latest
     steps:
-      -
-        name: Checkout
+      - name: Checkout
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      -
-        name: Set up Go
+      - name: Set up Go
         uses: actions/setup-go@v2
         with:
           go-version: 1.14
-      -
-        name: Run GoReleaser
+
+      - name: Set GITHUB_REF_SLUG
+        id: set_github_ref_slug
+        run: echo ::set-env name=GITHUB_REF_SLUG::${GITHUB_REF#refs/tags/}
+
+      - name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v2
         with:
           version: latest
