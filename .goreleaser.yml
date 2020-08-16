@@ -1,6 +1,9 @@
 builds:
   -
-    - goos:
+    goos:
         - linux
-    - ldflags:
-        - -s -w -X main.version={{.Version}}
+    goarch:
+      - 386
+      - amd64
+    ldflags:
+      - -s -w -X main.version={{.Version}}
