@@ -60,3 +60,7 @@ var Magento2 = Profile{
 var VueStorefront = Profile{
 	fileExtensions: []string{".css", ".js", ".sass", ".ts"},
 }
+
+var Javascript = Profile{
+	fileExtensions: []string{".js", ".ts"},
+}
