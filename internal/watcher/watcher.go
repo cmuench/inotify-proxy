@@ -6,8 +6,12 @@ import (
 	"github.com/gookit/color"
 	"github.com/karrick/godirwalk"
 	"os"
+	"sync"
 	"time"
 )
+
+var mu sync.Mutex
+var wg sync.WaitGroup
 
 func visit(osPathname string, de *godirwalk.Dirent) error {
 	// we only process files
@@ -33,16 +37,11 @@ func Watch(includedDirectories []string, watchFrequenceSeconds int, profile stri
 	i := 0
 
 	for {
+		wg.Add(len(includedDirectories))
 		for _, directoryToWalk := range includedDirectories {
-			err := godirwalk.Walk(directoryToWalk, &godirwalk.Options{
-				Callback: visit,
-				Unsorted: true,
-			})
-
-			if err != nil {
-				panic(err)
-			}
+			go walkSingleDirectory(directoryToWalk)
 		}
+		wg.Wait()
 
 		time.Sleep(time.Duration(watchFrequenceSeconds) * time.Second)
 
@@ -52,6 +51,20 @@ func Watch(includedDirectories []string, watchFrequenceSeconds int, profile stri
 		}
 
 		i++
+	}
+}
+
+func walkSingleDirectory(directoryToWalk string) {
+	mu.Lock()
+	defer mu.Unlock()
+	defer wg.Done()
+	err := godirwalk.Walk(directoryToWalk, &godirwalk.Options{
+		Callback: visit,
+		Unsorted: true,
+	})
+
+	if err != nil {
+		panic(err)
 	}
 }
 
@@ -98,6 +111,8 @@ func isFileChanged(path string) bool {
 }
 
 func garbageCollection() {
+	mu.Lock()
+	defer mu.Unlock()
 	for path, _ := range fileMap {
 		if !util.FileExists(path) {
 			delete(fileMap, path)
