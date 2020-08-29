@@ -15,6 +15,8 @@ func IsPathValid(path string, profileName string) bool {
 		selectedProfile = profile.Magento2Theme
 	case "vue-storefront":
 		selectedProfile = profile.VueStorefront
+	case "javascript":
+		selectedProfile = profile.Javascript
 	default:
 		selectedProfile = profile.Default
 	}
