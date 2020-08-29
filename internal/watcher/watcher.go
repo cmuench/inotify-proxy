@@ -1,7 +1,6 @@
 package watcher
 
 import (
-	"fmt"
 	"github.com/cmuench/inotify-proxy/internal/profile/validator"
 	"github.com/cmuench/inotify-proxy/internal/util"
 	"github.com/gookit/color"
@@ -59,7 +58,6 @@ func walkSingleDirectory(directoryToWalk string) {
 	mu.Lock()
 	defer mu.Unlock()
 	defer wg.Done()
-	fmt.Println("Watch " + directoryToWalk)
 	err := godirwalk.Walk(directoryToWalk, &godirwalk.Options{
 		Callback: visit,
 		Unsorted: true,
