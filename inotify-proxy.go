@@ -6,6 +6,7 @@ import (
 	"github.com/cmuench/inotify-proxy/internal/util"
 	"github.com/cmuench/inotify-proxy/internal/watcher"
 	"github.com/gookit/color"
+	"os"
 	"strings"
 )
 
@@ -41,7 +42,12 @@ func main() {
 func loadConfig(c config.Config, includedDirectories []string, profilePtr *string) []string {
 	if util.FileExists("inotify-proxy.yaml") {
 		color.Info.Println("load config")
-		c = config.ReadFile("inotify-proxy.yaml")
+		c, err := config.ReadFile("inotify-proxy.yaml");
+
+		if err != nil {
+			color.Errorf("error: Invalid config provided.\n")
+			os.Exit(1)
+		}
 
 		for _, watch := range c.Watch {
 			includedDirectories = append(includedDirectories, watch.Dir)

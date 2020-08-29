@@ -14,20 +14,30 @@ type Config struct {
 	Profile string `yaml:"profile"`
 }
 
-func ReadFile(filename string) Config {
-	yamlData, err := ioutil.ReadFile(filename)
+func ReadFile(filename string) (Config, error) {
+	var (
+		c Config
+		err error
+		yamlData []byte
+	)
+	yamlData, err = ioutil.ReadFile(filename)
 
 	if err != nil {
-		panic(err)
+		return c, err
 	}
 
-	var c Config
-	err = yaml.Unmarshal(yamlData, &c)
+	c, err = Parse(yamlData)
 
-	if err != nil {
-		panic(err)
-	}
-
-	return c
+	return c, err
 }
 
+func Parse(yamlData []byte) (Config, error) {
+	var c Config
+	err := yaml.Unmarshal(yamlData, &c)
+
+	if err != nil {
+		return c, err
+	}
+
+	return c, nil
+}
