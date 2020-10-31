@@ -36,3 +36,14 @@ func TestDefaultProfile(t *testing.T) {
 	assert.True(t, IsPathValid("foo.html", selectedProfile))
 	assert.True(t, IsPathValid("foo.xyz", selectedProfile))
 }
+
+func TestSASSProfile(t *testing.T) {
+	selectedProfile := "sass"
+
+	assert.False(t, IsPathValid("foo/node_modules/test.js", selectedProfile))
+	assert.False(t, IsPathValid(".git/config", selectedProfile))
+	assert.False(t, IsPathValid("foo/.git/config", selectedProfile))
+
+	assert.True(t, IsPathValid("foo.sass", selectedProfile))
+	assert.True(t, IsPathValid("foo.scss", selectedProfile))
+}
