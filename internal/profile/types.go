@@ -49,12 +49,20 @@ var Default = Profile{
 	fileExtensions: []string{"*"},
 }
 
+var LESS = Profile{
+	fileExtensions: []string{".less"},
+}
+
 var Magento2Theme = Profile{
 	fileExtensions: []string{".css", ".js", ".less", ".sass", ".ts"},
 }
 
 var Magento2 = Profile{
 	fileExtensions: []string{".css", ".html", ".less", ".sass", ".js", ".php", ".phtml", ".ts", ".xml"},
+}
+
+var SASS = Profile{
+	fileExtensions: []string{".sass", ".scss"},
 }
 
 var VueStorefront = Profile{
