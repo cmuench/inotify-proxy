@@ -50,6 +50,8 @@ The config loading can be skiped by adding the option `-no-config`.
 |----------------|-------------------------------------------------|
 | default        | All extensions are allowed                      |
 | javascript     | .js .ts                                         |
+| less           | .less                                           |
 | magento2       | .css .html .less .sass .js .php .phtml .ts .xml |
 | magento2-theme | .css .hs .less .sass .ts                        |
+| sass           | .sass .scss                                     |
 | vue-storefront | .css .js .sass .ts                              |
