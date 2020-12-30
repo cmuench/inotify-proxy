@@ -1,6 +1,8 @@
 package watcher
 
 import (
+	"fmt"
+	"github.com/cmuench/inotify-proxy/internal/config"
 	"github.com/cmuench/inotify-proxy/internal/profile/validator"
 	"github.com/cmuench/inotify-proxy/internal/util"
 	"github.com/gookit/color"
@@ -31,15 +33,13 @@ func visit(osPathname string, de *godirwalk.Dirent) error {
 	return nil
 }
 
-func Watch(includedDirectories []string, watchFrequenceSeconds int, profile string) {
-	selectedProfile = profile
-
+func Watch(c config.Config, watchFrequenceSeconds int) {
 	i := 0
 
 	for {
-		wg.Add(len(includedDirectories))
-		for _, directoryToWalk := range includedDirectories {
-			go walkSingleDirectory(directoryToWalk)
+		wg.Add(len(c.Entries))
+		for _, e := range c.Entries {
+			go walkSingleDirectory(c.GetEntryByDirectory(e.Directory))
 		}
 		wg.Wait()
 
@@ -54,11 +54,14 @@ func Watch(includedDirectories []string, watchFrequenceSeconds int, profile stri
 	}
 }
 
-func walkSingleDirectory(directoryToWalk string) {
+func walkSingleDirectory(we config.WatchEntry) {
 	mu.Lock()
 	defer mu.Unlock()
 	defer wg.Done()
-	err := godirwalk.Walk(directoryToWalk, &godirwalk.Options{
+
+	fmt.Println(we.Directory)
+
+	err := godirwalk.Walk(we.Directory, &godirwalk.Options{
 		Callback: visit,
 		Unsorted: true,
 	})

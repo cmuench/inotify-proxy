@@ -2,25 +2,40 @@ package config
 
 import (
 	"gopkg.in/yaml.v3"
-	"io/ioutil"
+	"io"
 )
 
-type Watch struct {
-	Dir string `yaml:"dir"`
-}
-
 type Config struct {
-	Watch []Watch `yaml:"watch"`
-	Profile string `yaml:"profile"`
+	Entries []WatchEntry `yaml:"watch"`
 }
 
-func ReadFile(filename string) (Config, error) {
+type WatchEntry struct {
+	Directory  string   `yaml:"directory"`
+	Extensions []string `yaml:"extensions"`
+	Profile    *string  `yaml:"profile"`
+}
+
+func (c *Config) AddEntry(e WatchEntry) {
+	c.Entries = append(c.Entries, e)
+}
+
+func (c *Config) GetEntryByDirectory(dir string) WatchEntry {
+	for _, e := range c.Entries {
+		if e.Directory == dir {
+			return e
+		}
+	}
+
+	return WatchEntry{}
+}
+
+func Read(f io.Reader) (Config, error) {
 	var (
-		c Config
-		err error
+		c        Config
+		err      error
 		yamlData []byte
 	)
-	yamlData, err = ioutil.ReadFile(filename)
+	_, err = f.Read(yamlData)
 
 	if err != nil {
 		return c, err

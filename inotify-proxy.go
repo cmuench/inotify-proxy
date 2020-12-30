@@ -25,38 +25,55 @@ func main() {
 	c := config.Config{}
 
 	if !*noConfig {
-		includedDirectories = loadConfig(c, includedDirectories, profilePtr)
+		if util.FileExists("inotify-proxy.yaml") {
+			r, err := os.Open("inotify-proxy.yaml")
+
+			if err != nil {
+				color.Errorf("cannot read file: %v\n", err)
+				os.Exit(1)
+			}
+
+			c, err = config.Read(r)
+
+			if err != nil {
+				color.Errorf("cannot read config: %v\n", err)
+			}
+		}
+	}
+
+	if len(includedDirectories) > 0 {
+		for _, includedDirectory := range includedDirectories {
+			c.Entries = append(c.Entries, config.WatchEntry{
+				Directory:  includedDirectory,
+				Extensions: nil,
+				Profile:    profilePtr,
+			})
+		}
 	}
 
 	// If no argument is defined, the current directory is used
-	if len(includedDirectories) == 0 {
-		includedDirectories = append(includedDirectories, ".")
+	if len(c.Entries) == 0 {
+		c.AddEntry(config.WatchEntry{
+			Directory:  ".",
+			Extensions: nil,
+			Profile:    profilePtr,
+		})
 	}
 
-	color.Style{color.FgCyan, color.OpBold}.Println("PROFILE: " + *profilePtr)
-	color.Style{color.FgCyan, color.OpBold}.Println("DIRECTORIES: " + strings.Join(includedDirectories, ","))
+	color.Style{color.FgMagenta, color.OpBold}.Println("Watching ...")
+	color.Style{color.FgWhite}.Println(strings.Repeat("-", 80))
 
-	watcher.Watch(includedDirectories, *sleepPtr, *profilePtr)
-}
-
-func loadConfig(c config.Config, includedDirectories []string, profilePtr *string) []string {
-	if util.FileExists("inotify-proxy.yaml") {
-		color.Info.Println("load config")
-		c, err := config.ReadFile("inotify-proxy.yaml");
-
-		if err != nil {
-			color.Errorf("error: Invalid config provided.\n")
-			os.Exit(1)
+	for _, e := range c.Entries {
+		color.Style{color.FgCyan, color.OpBold}.Printf("Directory: %s\n", e.Directory)
+		if *e.Profile != "" {
+			color.Style{color.FgCyan, color.OpBold}.Printf("Profile: %s\n", *e.Profile)
+		}
+		if len(e.Extensions) > 0 {
+			color.Style{color.FgCyan, color.OpBold}.Printf("Extensions: %s\n", e.Extensions)
 		}
 
-		for _, watch := range c.Watch {
-			includedDirectories = append(includedDirectories, watch.Dir)
-		}
-
-		if c.Profile != "" {
-			*profilePtr = c.Profile
-		}
+		color.Style{color.FgWhite}.Println(strings.Repeat("-", 80))
 	}
 
-	return includedDirectories
+	watcher.Watch(c, *sleepPtr)
 }
