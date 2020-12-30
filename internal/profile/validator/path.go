@@ -17,7 +17,7 @@ func IsPathValid(path string, entryConfig config.WatchEntry) bool {
 		 return false
 	}
 
-	if *entryConfig.Profile == "" {
+	if entryConfig.Profile == nil {
 		return true
 	}
 
