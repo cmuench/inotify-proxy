@@ -1,8 +1,8 @@
 # inotify-proxy
 
 This tools helps to detect changed files in Docker containers.
-If a file is changed from hostsystem a file watcher inside the container detects the change
-and triggers a inotify event.
+If a file is changed from host system a file watcher inside the container detects the change
+and triggers an inotify event.
 
 ## Purpose
 
@@ -37,12 +37,17 @@ Example config:
 
     ---
     watch:
-      - dir: /tmp/watch1
-      - dir: /tmp/watch2
-    profile: magento2
-    
+    - directory: /tmp/watch1
+      profile: magento2
+
+    - dir: /tmp/watch2
+      profile: sass
+
+    - dir: /tmp/watch3
+      extensions: [.css, .html]
+
 The profile setting is optional.
-The config loading can be skiped by adding the option `-no-config`.    
+The config loading can be skipped by adding the option `-no-config`.    
 
 ## Supported Profiles
 

@@ -1,7 +1,6 @@
 package watcher
 
 import (
-	"fmt"
 	"github.com/cmuench/inotify-proxy/internal/config"
 	"github.com/cmuench/inotify-proxy/internal/profile/validator"
 	"github.com/cmuench/inotify-proxy/internal/util"
@@ -14,24 +13,6 @@ import (
 
 var mu sync.Mutex
 var wg sync.WaitGroup
-
-func visit(osPathname string, de *godirwalk.Dirent) error {
-	// we only process files
-	if de.IsDir() {
-		return nil
-	}
-
-	if !validator.IsPathValid(osPathname, selectedProfile) {
-		return godirwalk.SkipThis
-	}
-
-	fileChanged := isFileChanged(osPathname)
-	if fileChanged {
-		color.Style{color.FgGreen, color.OpBold}.Printf("Changed: %s | %s\n", osPathname, time.Now().Format("2006-01-02T15:04:05"))
-	}
-
-	return nil
-}
 
 func Watch(c config.Config, watchFrequenceSeconds int) {
 	i := 0
@@ -59,10 +40,25 @@ func walkSingleDirectory(we config.WatchEntry) {
 	defer mu.Unlock()
 	defer wg.Done()
 
-	fmt.Println(we.Directory)
-
 	err := godirwalk.Walk(we.Directory, &godirwalk.Options{
-		Callback: visit,
+		Callback: func(osPathname string, directoryEntry *godirwalk.Dirent) error {
+
+			// we only process files
+			if directoryEntry.IsDir() {
+				return nil
+			}
+
+			if !validator.IsPathValid(osPathname, we) {
+				return godirwalk.SkipThis
+			}
+
+			fileChanged := isFileChanged(osPathname)
+			if fileChanged {
+				color.Style{color.FgGreen, color.OpBold}.Printf("Changed: %s | %s\n", osPathname, time.Now().Format("2006-01-02T15:04:05"))
+			}
+
+			return nil
+		},
 		Unsorted: true,
 	})
 

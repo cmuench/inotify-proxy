@@ -3,10 +3,13 @@ package config
 import (
 	"gopkg.in/yaml.v3"
 	"io"
+	"io/ioutil"
 )
 
 type Config struct {
 	Entries []WatchEntry `yaml:"watch"`
+
+	OldGlobalProfile *string `yaml:"profile"`
 }
 
 type WatchEntry struct {
@@ -35,7 +38,7 @@ func Read(f io.Reader) (Config, error) {
 		err      error
 		yamlData []byte
 	)
-	_, err = f.Read(yamlData)
+	yamlData, err = ioutil.ReadAll(f)
 
 	if err != nil {
 		return c, err

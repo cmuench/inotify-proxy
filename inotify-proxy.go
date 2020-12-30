@@ -26,6 +26,7 @@ func main() {
 
 	if !*noConfig {
 		if util.FileExists("inotify-proxy.yaml") {
+
 			r, err := os.Open("inotify-proxy.yaml")
 
 			if err != nil {
@@ -33,10 +34,18 @@ func main() {
 				os.Exit(1)
 			}
 
+			defer r.Close()
+
 			c, err = config.Read(r)
 
 			if err != nil {
 				color.Errorf("cannot read config: %v\n", err)
+			}
+
+			if c.OldGlobalProfile != nil {
+				color.Errorf("You are using the old configuration format. Please use the new configuration version.\n")
+				color.Print("\nPlease refer: https://github.com/cmuench/inotify-proxy/blob/master/README.md#config\n")
+				os.Exit(1)
 			}
 		}
 	}

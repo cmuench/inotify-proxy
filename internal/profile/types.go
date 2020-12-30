@@ -1,74 +1,33 @@
 package profile
 
-import (
-	"path/filepath"
-	"strings"
-)
-
 type Profile struct {
-	fileExtensions []string
-}
-
-func (l *Profile) IsAllowedFileExtension(path string) bool {
-
-	// if profile contains only one extension definition with "*" then allow every extension.
-	if len(l.fileExtensions) == 1 && l.fileExtensions[0] == "*" {
-		return true
-	}
-
-	extension := filepath.Ext(path)
-
-	for _, a := range l.fileExtensions {
-		if a == extension {
-			return true
-		}
-	}
-
-	return false
-}
-
-func (l *Profile) IsAllowedDirectory(path string) bool {
-	// Exclude some directories by default
-	excludedDirectories := [...]string{
-		"node_modules/",
-		".idea/",
-		".git/",
-		".svn/",
-	}
-
-	for _, excludedDirectory := range excludedDirectories {
-		if strings.Contains(path, excludedDirectory) {
-			return false
-		}
-	}
-
-	return true
+	Extensions []string
 }
 
 var Default = Profile{
-	fileExtensions: []string{"*"},
+	Extensions: []string{"*"},
 }
 
 var LESS = Profile{
-	fileExtensions: []string{".less"},
+	Extensions: []string{".less"},
 }
 
 var Magento2Theme = Profile{
-	fileExtensions: []string{".css", ".js", ".less", ".sass", ".ts"},
+	Extensions: []string{".css", ".js", ".less", ".sass", ".ts"},
 }
 
 var Magento2 = Profile{
-	fileExtensions: []string{".css", ".html", ".less", ".sass", ".js", ".php", ".phtml", ".ts", ".xml"},
+	Extensions: []string{".css", ".html", ".less", ".sass", ".js", ".php", ".phtml", ".ts", ".xml"},
 }
 
 var SASS = Profile{
-	fileExtensions: []string{".sass", ".scss"},
+	Extensions: []string{".sass", ".scss"},
 }
 
 var VueStorefront = Profile{
-	fileExtensions: []string{".css", ".js", ".sass", ".ts"},
+	Extensions: []string{".css", ".js", ".sass", ".ts"},
 }
 
 var Javascript = Profile{
-	fileExtensions: []string{".js", ".ts"},
+	Extensions: []string{".js", ".ts"},
 }
