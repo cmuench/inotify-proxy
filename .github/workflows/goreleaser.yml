@@ -20,7 +20,7 @@ jobs:
 
       - name: Set GITHUB_REF_SLUG
         id: set_github_ref_slug
-        run: echo ::set-env name=GITHUB_REF_SLUG::${GITHUB_REF#refs/tags/}
+        run: echo GITHUB_REF_SLUG=${GITHUB_REF#refs/tags/} >> $GITHUB_ENV
 
       - name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v2
