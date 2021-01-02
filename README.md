@@ -1,5 +1,7 @@
 # inotify-proxy
 
+![Maintenance Badge](https://img.shields.io/maintenance/yes/2021.svg)
+
 This tools helps to detect changed files in Docker containers.
 If a file is changed from host system a file watcher inside the container detects the change
 and triggers an inotify event.
