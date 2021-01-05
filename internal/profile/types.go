@@ -20,7 +20,7 @@ var Magento2Theme = Profile{
 	Extensions: []string{".css", ".js", ".less", ".sass", ".ts"},
 }
 
-// Magento2Theme allows only extensions required for development of a Magento 2 Module / Extension
+// Magento2 allows only extensions required for development of a Magento 2 Module / Extension
 var Magento2 = Profile{
 	Extensions: []string{".css", ".html", ".less", ".sass", ".js", ".php", ".phtml", ".ts", ".xml"},
 }
@@ -35,7 +35,7 @@ var VueStorefront = Profile{
 	Extensions: []string{".css", ".js", ".sass", ".ts"},
 }
 
-// VueStorefront allow only .js (Javascript) and .ts (Typescript) extension
+// Javascript allow only .js (Javascript) and .ts (Typescript) extension
 var Javascript = Profile{
 	Extensions: []string{".js", ".ts"},
 }
