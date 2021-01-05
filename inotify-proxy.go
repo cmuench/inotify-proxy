@@ -10,6 +10,7 @@ import (
 	"strings"
 )
 
+// Version defines the version of the application. This variable will be overridden by build system
 var Version = "dev"
 
 func main() {

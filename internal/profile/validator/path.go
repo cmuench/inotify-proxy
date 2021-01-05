@@ -7,6 +7,7 @@ import (
 	"strings"
 )
 
+// IsPathValid checks if a path matches criteria to be included in watch process
 func IsPathValid(path string, entryConfig config.WatchEntry) bool {
 
 	if !isAllowedDirectory(path) {
@@ -14,7 +15,7 @@ func IsPathValid(path string, entryConfig config.WatchEntry) bool {
 	}
 
 	if len(entryConfig.Extensions) > 0 && !isAllowedFileExtension(path, entryConfig.Extensions) {
-		 return false
+		return false
 	}
 
 	if entryConfig.Profile == nil {

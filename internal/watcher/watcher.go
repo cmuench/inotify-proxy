@@ -14,6 +14,7 @@ import (
 var mu sync.Mutex
 var wg sync.WaitGroup
 
+// Watch starts the watch process of a defined directories of the given configuration
 func Watch(c config.Config, watchFrequenceSeconds int) {
 	i := 0
 
@@ -112,7 +113,7 @@ func isFileChanged(path string) bool {
 func garbageCollection() {
 	mu.Lock()
 	defer mu.Unlock()
-	for path, _ := range fileMap {
+	for path := range fileMap {
 		if !util.FileExists(path) {
 			delete(fileMap, path)
 			color.Style{color.FgGray}.Printf("Deleted: %s\n", path)
