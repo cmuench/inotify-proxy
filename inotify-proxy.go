@@ -2,12 +2,13 @@ package main
 
 import (
 	"flag"
+	"os"
+	"strings"
+
 	"github.com/cmuench/inotify-proxy/internal/config"
 	"github.com/cmuench/inotify-proxy/internal/util"
 	"github.com/cmuench/inotify-proxy/internal/watcher"
 	"github.com/gookit/color"
-	"os"
-	"strings"
 )
 
 // Version defines the version of the application. This variable will be overridden by build system
@@ -75,7 +76,7 @@ func main() {
 
 	for _, e := range c.Entries {
 		color.Style{color.FgCyan, color.OpBold}.Printf("Directory: %s\n", e.Directory)
-		if *e.Profile != "" {
+		if e.Profile != nil {
 			color.Style{color.FgCyan, color.OpBold}.Printf("Profile: %s\n", *e.Profile)
 		}
 		if len(e.Extensions) > 0 {
