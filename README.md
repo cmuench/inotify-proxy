@@ -3,7 +3,7 @@
 ![Maintenance Badge](https://img.shields.io/maintenance/yes/2021.svg)
 [![Go Report Card](https://goreportcard.com/badge/github.com/cmuench/inotify-proxy)](https://goreportcard.com/report/github.com/cmuench/inotify-proxy)
 
-This tools helps to detect changed files in Docker Containers or in Virtual Machines (e.g. Vargrant).
+This tools helps to detect changed files in Docker Containers or in Virtual Machines (e.g. Vagrant).
 If a file is changed from host system a file watcher inside the container detects the change
 and triggers an inotify event.
 
