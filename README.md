@@ -7,9 +7,22 @@ This tools helps to detect changed files in Docker Containers or in Virtual Mach
 If a file is changed from host system a file watcher inside the container detects the change
 and triggers an inotify event.
 
+The tool is designed to run over a longer period of time. It comes with a garbage collector to cleanup old watched files in memory.
+
+Installation is simple -> It's one binary which can be downloaded and executed.
+
 ## Purpose
 
 Enables file watcher in a Docker container with a NFS mounted filesystem.
+
+## Installation
+
+- Download compiled application on release page: https://github.com/cmuench/inotify-proxy/releases
+- Extract the zip/tarball.
+- Run `./inotify-proxy` binary.
+
+See Wiki page for more informations.
+https://github.com/cmuench/inotify-proxy/wiki/Installation
 
 ## Usage
 
