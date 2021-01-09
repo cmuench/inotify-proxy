@@ -13,7 +13,7 @@ Installation is simple -> It's one binary which can be downloaded and executed.
 
 ## Purpose
 
-Enables file watcher in a Docker container with a NFS mounted filesystem.
+Enables file watcher in a Docker Container/Virtual Machine with a NFS mounted filesystem.
 
 ## Installation
 
