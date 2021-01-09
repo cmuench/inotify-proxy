@@ -18,6 +18,5 @@
 
 dist/
 
-inotify-proxy
-
+inotify-proxy-linux-*
 inotify-proxy.yaml

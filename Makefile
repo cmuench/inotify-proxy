@@ -5,10 +5,14 @@ LDFLAGS="-ldflags=-s -w -X 'main.Version=dev-linux'"
 format:
 	go fmt ./...
 
-linux:
-	GOOS=linux GOARCH=amd64 go build -o inotify-proxy $(LDFLAGS) inotify-proxy.go
+build-linux-amd64:
+	GOOS=linux GOARCH=amd64 go build -o inotify-proxy-linux-amd64 $(LDFLAGS) inotify-proxy.go
+
+build-linux-arm64:
+	GOOS=linux GOARCH=amd64 go build -o inotify-proxy-linux-arm64 $(LDFLAGS) inotify-proxy.go
 
 test:
-	GOOS=linux GOARCH=amd64 go test -v ./...
+	go test -v ./...
 
-all: format test linux
+build: build-linux-amd64 build-linux-arm64
+all: format test build
