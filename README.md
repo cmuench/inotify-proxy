@@ -57,10 +57,10 @@ Example config:
     - directory: /tmp/watch1
       profile: magento2
 
-    - dir: /tmp/watch2
+    - directory: /tmp/watch2
       profile: sass
 
-    - dir: /tmp/watch3
+    - directory: /tmp/watch3
       extensions: [.css, .html]
 
 The profile setting is optional.
