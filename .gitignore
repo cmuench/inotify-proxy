@@ -20,3 +20,5 @@ dist/
 
 inotify-proxy-linux-*
 inotify-proxy.yaml
+
+tmp
