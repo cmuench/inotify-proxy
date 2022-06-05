@@ -1,8 +1,9 @@
 package config
 
 import (
-	"github.com/stretchr/testify/assert"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestParseValidYaml(t *testing.T) {
@@ -30,7 +31,10 @@ watch:
 	assert.IsType(t, Config{}, c)
 
 	assert.Equal(t, "/tmp/watch1", c.Entries[0].Directory)
+	assert.Equal(t, ".scss", c.Entries[0].Extensions[0])
+	assert.Equal(t, ".js", c.Entries[0].Extensions[1])
 	assert.Equal(t, "/tmp/watch2", c.Entries[1].Directory)
+	assert.Equal(t, ".twig", c.Entries[1].Extensions[2])
 
 }
 
