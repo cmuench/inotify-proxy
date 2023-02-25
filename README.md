@@ -1,6 +1,6 @@
 # inotify-proxy
 
-![Maintenance Badge](https://img.shields.io/maintenance/yes/2022.svg)
+![Maintenance Badge](https://img.shields.io/maintenance/yes/2023.svg)
 [![Go Report Card](https://goreportcard.com/badge/github.com/cmuench/inotify-proxy)](https://goreportcard.com/report/github.com/cmuench/inotify-proxy)
 [![Go Github Action Workflow](https://github.com/cmuench/inotify-proxy/workflows/Go/badge.svg)](https://github.com/cmuench/inotify-proxy/actions?query=workflow%3AGo)
 
