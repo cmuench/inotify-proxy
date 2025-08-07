@@ -22,3 +22,5 @@ inotify-proxy-linux-*
 inotify-proxy.yaml
 
 tmp
+
+inotify-proxy

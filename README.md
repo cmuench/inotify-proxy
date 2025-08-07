@@ -77,3 +77,19 @@ The config loading can be skipped by adding the option `-no-config`.
 | magento2-theme | .css .hs .less .sass .ts                        |
 | sass           | .sass .scss                                     |
 | vue-storefront | .css .js .sass .ts                              |
+
+## Comparison with other tools
+
+There are other tools available that solve a similar problem. Here's a comparison to help you choose the right tool for your needs.
+
+### notify-forwarder
+
+[notify-forwarder](https://github.com/mhallin/notify-forwarder) is a tool that forwards file system events from a host to a client. It requires a component running on both the host and the client.
+
+### fs_eventbridge
+
+[fs_eventbridge](https://github.com/TomFrost/fs_eventbridge) is another tool that bridges file system events from a host to a guest VM. It also requires a component running on both the host and the client.
+
+### inotify-proxy (this tool)
+
+`inotify-proxy` is different from the other two tools in that it **does not require a host component**. It's a single binary that runs inside the Docker Container or VM and polls the filesystem for changes. This makes it a simpler solution for use cases where you only need to detect file changes within a container or VM.
