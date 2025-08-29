@@ -5,7 +5,7 @@ go 1.23.0
 toolchain go1.24.3
 
 require (
-	github.com/gookit/color v1.5.4
+	github.com/gookit/color v1.6.0
 	github.com/karrick/godirwalk v1.17.0
 	github.com/stretchr/testify v1.11.1
 	gopkg.in/yaml.v3 v3.0.1
