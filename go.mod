@@ -1,8 +1,6 @@
 module github.com/cmuench/inotify-proxy
 
-go 1.23.0
-
-toolchain go1.24.3
+go 1.24.0
 
 require (
 	github.com/gookit/color v1.6.0
