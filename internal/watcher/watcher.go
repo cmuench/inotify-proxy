@@ -64,7 +64,7 @@ func walkSingleDirectory(we config.WatchEntry) {
 	})
 
 	if err != nil {
-		color.Errorf("Error during directory walk: %v\n", err)
+		color.Errorf("Error walking directory %s: %v\n", we.Directory, err)
 	}
 }
 

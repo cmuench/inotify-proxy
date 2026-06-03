@@ -3,7 +3,7 @@ module github.com/cmuench/inotify-proxy
 go 1.24.0
 
 require (
-	github.com/gookit/color v1.6.0
+	github.com/gookit/color v1.6.1
 	github.com/karrick/godirwalk v1.17.0
 	github.com/stretchr/testify v1.11.1
 	gopkg.in/yaml.v3 v3.0.1
