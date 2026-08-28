@@ -64,7 +64,7 @@ func walkSingleDirectory(we config.WatchEntry) {
 	})
 
 	if err != nil {
-		color.Errorf("Error walking directory %s: %s\n", we.Directory, err.Error())
+		color.Errorf("Error walking directory %s: %v\n", we.Directory, err)
 	}
 }
 
@@ -98,7 +98,8 @@ func isFileChanged(path string) bool {
 			err := os.Chtimes(path, currentTime, currentModificationTime)
 
 			if err != nil {
-				color.Errorf("Error touching file %s: %s\n", path, err.Error())
+				color.Errorf("Error touching file %s: %v\n", path, err)
+				return false
 			}
 
 			fileMap[path] = NodeInfo{
